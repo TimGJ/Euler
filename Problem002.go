@@ -10,19 +10,21 @@ import "fmt"
 
 func main() {
 
-	const limit	= 100
+	const limit	= 4000000
 
-	var x, y, z, sum int = 2, 1, 0, 0
+	var x, y, z, sum int
 
-	for x < limit {
+	x = 1
+	for  {
 		z = y
 		y = x
 		x = y + z
-
-		fmt.Print(x)
+		if x > limit {
+			break
+		}
 		if x%2 == 0 {
 			sum += x
-			fmt.Println(" Even. Sum=", sum)
 		}
+		fmt.Printf("x = %10d y = %10d z = %10d sum = %10d\n", x, y, z, sum)
 	}
 }
