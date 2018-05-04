@@ -1,10 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/TimGJ/Euler/euler"
+)
 
 
-func Problem003() {
+func main() {
 	fmt.Println("Problem #3")
-	p := PrimeFactors(600851475143)
+	p := euler.PrimeFactors(600851475143)
 	fmt.Println(p[len(p)-1])
 }
+

@@ -1,4 +1,4 @@
-package main
+package euler
 
 // Various functions which are likely to be useful in the solution of problems in Project Euler
 //
