@@ -8,12 +8,13 @@ import "fmt"
 //
 //By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 
-func main() {
+func Problem002() {
 
 	const limit	= 4000000
 
 	var x, y, z, sum int
 
+	fmt.Println("Problem #2")
 	x = 1
 	for  {
 		z = y
@@ -25,6 +26,6 @@ func main() {
 		if x%2 == 0 {
 			sum += x
 		}
-		fmt.Printf("x = %10d y = %10d z = %10d sum = %10d\n", x, y, z, sum)
 	}
+	fmt.Println(sum)
 }
