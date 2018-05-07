@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/TimGJ/Euler/euler"
 	"fmt"
+	"time"
 )
 
 // 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
@@ -48,32 +49,52 @@ func Count(f []int) Counter {
 	return m
 }
 
-func Consolidate(m MetaCounter) {
+func Consolidate(m MetaCounter) Counter {
 
 	c := make(Counter)
 
 	for key := 0 ; key <= len(m) ; key++ {
 		value := m[key]
-		fmt.Printf("%v has the following prime factors: %v\n", key, value)
-	}
-
-	for _, value := range m {
 		for factor, count := range value {
-			if value[factor] > c[factor] {
-				c[factor] = value[factor]
+			if c[factor] < count {
+				c[factor] = count
 			}
 		}
 	}
-	fmt.Println("Consolidated prime factors: %v", c)
+	return c
+}
+
+func Power(x, n int) int {
+	v := 1
+	for i := 0 ; i < n ; i++ {
+		v *= x
+	}
+	return v
 }
 
 func main() {
 
+	const limit = 20
 	m := make(MetaCounter)
 
-	for  v := 1 ; v <= 20 ; v++ {
+	start := time.Now()
+
+	for  v := 1 ; v <= limit ; v++ {
 		f := euler.PrimeFactors(v)
 		m[v] = Count(f)
 	}
-	Consolidate(m)
+	c := Consolidate(m)
+	value := 1
+	for factor, power := range c {
+		value *= Power(factor, power)
+	}
+	// Check that value is divisible by the numbers 1..limit
+	fmt.Println(value)
+	for v := 1 ; v <= limit ; v++ {
+		if value % v != 0 {
+			fmt.Printf("Error! %v  does not divide by %v\n", value, v)
+		}
+	}
+	fmt.Printf("Execution took %v", time.Now().Sub(start))
 }
+
