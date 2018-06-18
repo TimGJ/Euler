@@ -7,8 +7,9 @@ import "fmt"
 // Doing ithis more to get my head around how Go packages work
 
 // Get all prime factors of a given number n
-func PrimeFactors(n int) (pfs []int) {
+func PrimeFactors(n int) []int {
 	// Get the number of 2s that divide n
+	pfs := []int{}
 	for n%2 == 0 {
 		pfs = append(pfs, 2)
 		n = n / 2
@@ -29,9 +30,9 @@ func PrimeFactors(n int) (pfs []int) {
 	if n > 2 {
 		pfs = append(pfs, n)
 	}
-
-	return
+	return pfs
 }
+
 // Counters for counting up prime factors.
 
 type Counter map[int]int
@@ -56,4 +57,47 @@ func (c MetaCounter) String() string {
 		s += fmt.Sprintf("%d: [%v]\t", key, value)
 	}
 	return s
+}
+
+func GetFirstNPrimes(n int) []int {
+	primes := []int{}
+
+	primes = append(primes, 2)
+
+	for m := 3; len(primes) < n; m++ {
+		isprime := true
+		for _, p := range primes {
+			if m%p == 0 {
+				isprime = false
+			}
+		}
+		if isprime {
+			primes = append(primes, m)
+		}
+	}
+	return primes
+}
+
+func GetPrimesUpto(n int) []int {
+	// Gets all prime numbers less than n
+	primes := []int{}
+
+	if n < 2 {
+		return primes
+	}
+
+	primes = append(primes, 2)
+
+	for m := 3; m <= n; m++ {
+		isprime := true
+		for _, p := range primes {
+			if m%p == 0 {
+				isprime = false
+			}
+		}
+		if isprime {
+			primes = append(primes, m)
+		}
+	}
+	return primes
 }
