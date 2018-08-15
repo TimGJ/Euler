@@ -17,7 +17,7 @@ type DigitCounters []int
 
 func (d DigitCounters) String() string {
 	var s string
-	for i := len(d) - 1; i >= 0; i-- {
+	for i := len(d) - 2; i >= 0; i-- {
 		s += fmt.Sprintf("%d", d[i])
 	}
 	return s
@@ -31,20 +31,25 @@ func main() {
 
 	// Work out the number of digits required to represent 2**1000
 
-	const exponent = 10
-	width := int(float64(exponent)/math.Log2(10)) + 1
+	const exponent = 1000
+	width := int(float64(exponent)/math.Log2(10)) + 2
 	digits := make(DigitCounters, width)
 	carry := make(DigitCounters, width)
 	digits[0] = 1
-	fmt.Println(digits)
 	for i := 1; i <= exponent; i++ {
 		for j := 0; j < width-1; j++ {
 			digits[j] *= 2
-			carry[j] = digits[j] / 10
+			carry[j+1] += digits[j] / 10
 			digits[j] %= 10
-			digits[j+1] += carry[j]
 		}
-		fmt.Printf("2 ** %d = %s\n", i, digits)
+		for j := 0; j < width-1; j++ {
+			digits[j] += carry[j]
+			carry[j] = 0
+		}
 	}
-
+	var digitsum int
+	for _, val := range digits {
+		digitsum += val
+	}
+	fmt.Printf("2**%d=%s. Digit sum=%d\n", exponent, digits, digitsum)
 }
